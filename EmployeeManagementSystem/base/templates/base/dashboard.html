@@ -2,6 +2,53 @@
 
 {% block content %}
 
-    <h1>Welcome to xAyB {{user}}</h1>
+    <h5>Welcome, {{user}}👋</h5>
+    <hr>
+
+    <a class = "btn btn-outline-primary btn-sm" href = "add-employee"> New Employee &nbsp; <i class="fa fa-plus-square" aria-hidden="true"></i></a>
+   
+    <hr>
+
+    <table class = "table table-hover table-bordered">
+
+        <thead class = "table-light">
+
+            <tr>
+                <th scope = "col">Employee ID</th>
+                <th scope = "col">Name</th>
+                <th scope = "col">Date Of Birth</th>
+                <th scope = "col">Date Of Joining</th>
+                <th scope = "col">Gender</th>
+                <th scope = "col">Phone Number</th>
+                <th scope = "col">View</th>
+            </tr>
+
+        </thead>
+
+        <tbody>
+
+            {% if all_emp %}
+
+                {% for emp in all_emp %}
+                <tr>
+                    <td>{{ emp.id }}</td>
+                    <td>{{ emp.first_name }} {{emp.last_name}}</td>
+                    <td>{{ emp.dob }}</td>
+                    <td>{{ emp.doj }}</td>
+                    <td>{{ emp.gender }}</td>
+                    <td>{{ emp.phone }}</td>
+                    <td> <a href= "{% url 'view-employee' emp.id %}">  <i class="fa fa-eye" aria-hidden="true"></i></a> </td>
+                </tr>
+                {% endfor %}
+            {% endif %}
+        </tbody>
+
+
+
+
+
+    </table>
+
+
 
 {% endblock %}

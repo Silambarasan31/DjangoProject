@@ -1,5 +1,28 @@
 {% extends 'base/base1.html' %}
+{% load crispy_forms_tags %}
 
 {% block content %}
+
+<div class = 'container bg-light shadow-md p-5 form-style'>
+
+    <h3>New Employee Details:</h3>
+
+    <hr>
+
+    <br>
+
+    <form method = "POST">
+        {% csrf_token %}
+        
+        {{form|crispy}}
+
+        <br>
+        <button type= "submit" class = "btn btn-primary">Add&nbsp;<i class="fa fa-plus" aria-hidden="true"></i></button>
+
+        <a href = "{% url 'dashboard' %}" class = "btn btn-outline-secondary" style = "float:right"> <i class="fa fa-arrow-left" aria-hidden="true"></i>&nbsp;Go back</a>
+    </form>
+    <br>
+
+</div>
 
 {% endblock %}
