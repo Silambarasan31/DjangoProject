@@ -5,7 +5,7 @@ from django.contrib.auth import authenticate
 from django.contrib.auth.decorators import login_required
 from .models import EmployeeDetail, Role
 from django.contrib import messages
-
+from datetime import datetime
 
 # Home page-index
 
@@ -120,7 +120,8 @@ def add_employee(request):
         return render(request,"base/add_employee.html", context)
     
     
-
+def mdy_to_ymd(d):
+     return datetime.strptime(d, '%b. %d, %Y').strftime('%Y-%m-%d')
 #-update a record
 
 @login_required(login_url = 'login')
@@ -138,15 +139,13 @@ def update_employee(request, emp_id):
         return redirect('dashboard')
     
     else:
-       
-
-        form = UpdateEmployeeForm(instance= record)
-    
-    context = {
-        'form' : form
-    }
-
-    return render(request, 'base/update_employee.html', context)
+        role = Role.objects.all()       
+        context = {
+            'role':role,
+            'record':record
+                   }
+          
+        return render(request,"base/update_employee.html", context)
 
 
 #-view a single record
