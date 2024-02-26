@@ -14,7 +14,44 @@
     <form method = "POST">
         {% csrf_token %}
         
-        {{form|crispy}}
+        <label for = "first_name">First Name:</label><br>
+        <input type = "text" id = "first_name" name = "first_name" required><br>
+
+        <label for = "last_name">Last Name:</label><br>
+        <input type = "text" id = "last_name" name = "last_name" required><br>
+
+        <label for = "email">Email:<br>
+        <input type = "email" id = "email" name = "email" required><br>
+
+        <label for = "phone">Phone Number:</label><br>
+        <input type = "tel" id = "phone" name = "phone" maxlength = 10 required><br>
+
+        <label for = "dob">DOB:</label><br>
+        <input type = "date" id = "dob" name = "dob" onchange = "ageCalculate()" required><br>
+
+        <label for = "age">Age:</label><br>
+        <input type = "number" id = "age" name = "age"  readonly><br>
+
+        <label for = "gender">gender:</label><br>
+        <input type = "text" id = "gender" name = "gender"><br>
+
+        <label for = "doj">DOJ:</label><br>
+        <input type = "date" id = "doj" name = "doj" required><br>
+
+        <label for = "salary" required>Salary:</label><br>
+        <input type = "number" id = "salary" name = "salary"><br>
+
+        <label for = "role">Role:</label><br>
+        <select id = "role" name = "role">
+            {% for rol in role %}
+                {% if rol.id == 2 %}
+                    <option value = {{ rol.id }} selected >{{rol.role_name}}</option>
+                {% else %}
+                    <option value = {{ rol.id }}>{{rol.role_name}}</option>
+                {% endif %}
+                
+            {% endfor %}
+        </select><br>
 
         <br>
         <button type= "submit" class = "btn btn-primary">Add&nbsp;<i class="fa fa-plus" aria-hidden="true"></i></button>
@@ -24,5 +61,34 @@
     <br>
 
 </div>
+
+<script>
+    function ageCalculate(){
+
+        const dob =new Date(document.getElementById("dob").value)
+        const current = new Date()
+        let dob_year = dob.getFullYear();
+        let year = current.getFullYear();
+        let dob_month = dob.getMonth();
+        let c_month = current.getMonth();
+
+        if (c_month < dob_month){
+            document.getElementById("age").value = year-dob_year-1
+        }
+        else if (c_month = dob_month){
+            if (current.getDate()<dob.getDate()){
+                document.getElementById("age").value = year-dob_year-1 
+            }
+            else{
+                document.getElementById("age").value = year-dob_year
+            }
+            
+        }
+        else{
+            document.getElementById("age").value = year-dob_year
+        }
+        
+    }
+</script>
 
 {% endblock %}

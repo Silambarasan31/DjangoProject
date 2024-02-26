@@ -14,7 +14,7 @@
         <thead class = "table-light">
 
             <tr>
-                <th scope = "col">Employee ID</th>
+                <th scope = "col">SI NO</th>
                 <th scope = "col">Name</th>
                 <th scope = "col">Date Of Birth</th>
                 <th scope = "col">Date Of Joining</th>
@@ -30,26 +30,25 @@
 
             {% if all_emp %}
 
-                {% for emp in all_emp %}
+                {% for emp,sn in all_emp %}
+                
+                
                 <tr>
-                    <td>{{ emp.id }}</td>
+                    <td>{{ sn }}</td>
                     <td>{{ emp.first_name }} {{emp.last_name}}</td>
                     <td>{{ emp.dob }}</td>
                     <td>{{ emp.doj }}</td>
                     <td>{{ emp.gender }}</td>
                     <td>{{ emp.phone }}</td>
 
-                    {% if emp.role_id not in id_role %}
 
-                    <td></td>
-                    {% else %}
-                        {% for rol in all_role %}
-                            {% if emp.role_id == rol.id  %}
+                    {% for rol in all_role %}
+                        {% if emp.role_id == rol.id  %}
 
                             <td>{{ rol.role_name }}</td>
-                            {% endif %}
-                        {% endfor %}
-                    {% endif %}
+                        {% endif %}
+                    {% endfor %}
+
                     <td> <a href= "{% url 'view-employee' emp.id %}">  <i class="fa fa-eye" aria-hidden="true"></i></a> </td>
                 </tr>
                 {% endfor %}

@@ -20,15 +20,16 @@ def register(request):
 
     if request.method == "POST":
         form = RegisterUser(request.POST)
+        
+        if form.is_valid():
 
-        if form.is_valid:
+                form.save()
+                messages.success(request, "Registered successfully!")
 
-            form.save()
-            messages.success(request, "Registered successfully!")
-
-            return redirect('login')
-    else:
-        form = RegisterUser()
+                return redirect('login')
+        
+    
+    form = RegisterUser()
     
     context = {'form' : form} 
 
@@ -39,27 +40,33 @@ def register(request):
 
 def loginRequest(request):
 
-
+    form = LoginUser()
     if request.method == "POST":
 
-        form = LoginUser(request.POST)
+            form = LoginUser(request.POST)
 
-        if form.is_valid:
+        
             username = request.POST.get('username')
             password = request.POST.get('password')
-
+            
             user = authenticate(request, username= username, password= password)
 
-            #messages.error(request, "Incorrect Username/Password")
-            if user is not None:
+            
+            if user:
                 
                 
                 auth.login(request, user)
                 
                 return redirect('dashboard')
+            
+                
 
-    else:
-        form = LoginUser()
+            else:
+                messages.error(request, "Incorrect Username/Password")
+                
+                return redirect('login')
+    
+        
 
     context = {'form': form}
 
@@ -79,12 +86,12 @@ def dashboard(request):
 
     all_records = EmployeeDetail.objects.all()
     all_role = Role.objects.all()
-    id_role = [i.id for i in all_role]
 
+    count = list(range(1,len(all_records)+1))
+    zipped_list = zip(all_records,count)
     context = {
-        'all_emp' : all_records,
-        'all_role' : all_role,
-        'id_role' : id_role
+        'all_emp' : zipped_list,
+        'all_role' : all_role
     }
     return render(request, 'base/dashboard.html', context)
 
@@ -99,17 +106,20 @@ def add_employee(request):
 
         if form.is_valid():
             form.save()
+           
 
             messages.success(request, "Employee added!")
 
             return redirect('dashboard')
+        context = {'form': form}
+
+        return render(request, "base/add_employee.html", context)
     else:
-
-        form = AddEmployeeForm()
+        role = Role.objects.all()
+        context = {'role':role}
+        return render(request,"base/add_employee.html", context)
     
-    context = {'form': form}
-
-    return render(request, "base/add_employee.html", context)
+    
 
 #-update a record
 
@@ -117,18 +127,20 @@ def add_employee(request):
 def update_employee(request, emp_id):
 
     record = EmployeeDetail.objects.get(id = emp_id) 
-
-    form = UpdateEmployeeForm(instance= record)
+    
 
     if request.method == 'POST':
         
-        form = UpdateEmployeeForm(request.POST, instance = record)
+        form = UpdateEmployeeForm(request.POST, instance=record)
 
-        if form.is_valid:
+        form.save()
 
-            form.save()
+        return redirect('dashboard')
+    
+    else:
+       
 
-            return redirect('dashboard')
+        form = UpdateEmployeeForm(instance= record)
     
     context = {
         'form' : form
@@ -156,6 +168,8 @@ def view_employee(request, emp_id):
 def delete_employee(request, emp_id):
 
     emp_detail = EmployeeDetail.objects.get(id = emp_id)
+
+    
 
     emp_detail.delete()
 

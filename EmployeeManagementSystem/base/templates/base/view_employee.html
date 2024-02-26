@@ -33,7 +33,8 @@
     <a href = "{% url 'update-employee' detail.id %}" class = "btn btn-info">Update</a>
     &nbsp;
 
-    <a href = "{% url 'delete-employee' detail.id %}" class = "btn btn-danger">Delete</a>
+    <a href = "{% url 'delete-employee' detail.id %}" class = "btn btn-danger" onclick = "return confirm('Are you sure you want to delete?')">Delete</a>
     
+
 
 {% endblock %}

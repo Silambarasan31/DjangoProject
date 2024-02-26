@@ -17,8 +17,9 @@
 
         <link rel = "stylesheet" type = "text/css" href = "{% static 'css/styles.css' %}">
         
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel = "stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         
+        <link rel = "icon" type = "image" href ="{% static 'image/favico.png' %}">
     </head>
 
     <body>
@@ -32,16 +33,19 @@
 
             {% for message in messages %}
 
-                {% if message.lever == DEFAULT_MESSAGE_LEVEL.SUCCESS %}
+                {% if message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
 
                     <p id = "message-timer" class = "alert alert-success float center text-center">
                        
                         {{message}}
                     
                     </p>
-                {% elif message.level == DEFAULT_MESSAGE_LEVEL.ERROR%}
 
-                    <p> {{message}} </p>
+                {% elif message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
+                <p id = "message-timer" class = "alert alert-warning">
+                    {{message}}
+                </p>
+
                 {%  endif %}
             {% endfor %}
 
@@ -62,5 +66,5 @@
         
 
     </body>
-
+    
 </html>
