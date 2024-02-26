@@ -20,6 +20,7 @@
                 <th scope = "col">Date Of Joining</th>
                 <th scope = "col">Gender</th>
                 <th scope = "col">Phone Number</th>
+                <th scope = "col">Role</th>
                 <th scope = "col">View</th>
             </tr>
 
@@ -37,6 +38,18 @@
                     <td>{{ emp.doj }}</td>
                     <td>{{ emp.gender }}</td>
                     <td>{{ emp.phone }}</td>
+
+                    {% if emp.role_id not in id_role %}
+
+                    <td></td>
+                    {% else %}
+                        {% for rol in all_role %}
+                            {% if emp.role_id == rol.id  %}
+
+                            <td>{{ rol.role_name }}</td>
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
                     <td> <a href= "{% url 'view-employee' emp.id %}">  <i class="fa fa-eye" aria-hidden="true"></i></a> </td>
                 </tr>
                 {% endfor %}

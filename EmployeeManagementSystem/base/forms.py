@@ -25,9 +25,10 @@ class LoginUser(AuthenticationForm):
     
 class AddEmployeeForm(forms.ModelForm):
 
+
         class Meta:
             model = EmployeeDetail
-            fields = ['first_name','last_name','email', 'phone', 'dob', 'age', 'gender', 'doj', 'salary']
+            fields = ['first_name','last_name','email', 'phone', 'dob', 'age', 'gender', 'doj', 'salary', 'role']
 
 # - Updating an employee
     
@@ -35,4 +36,4 @@ class UpdateEmployeeForm(forms.ModelForm):
 
         class Meta:
             model = EmployeeDetail
-            fields = ['first_name','last_name','email', 'phone', 'dob', 'age', 'gender', 'doj', 'salary']
+            fields = ['first_name','last_name','email', 'phone', 'dob', 'age', 'gender', 'doj', 'salary', 'role']

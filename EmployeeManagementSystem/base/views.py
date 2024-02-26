@@ -3,7 +3,7 @@ from .forms import RegisterUser, LoginUser, AddEmployeeForm, UpdateEmployeeForm
 from django.contrib.auth.models import auth
 from django.contrib.auth import authenticate
 from django.contrib.auth.decorators import login_required
-from .models import EmployeeDetail
+from .models import EmployeeDetail, Role
 from django.contrib import messages
 
 
@@ -78,8 +78,13 @@ def userLogout(request):
 def dashboard(request):
 
     all_records = EmployeeDetail.objects.all()
+    all_role = Role.objects.all()
+    id_role = [i.id for i in all_role]
+
     context = {
-        'all_emp' : all_records
+        'all_emp' : all_records,
+        'all_role' : all_role,
+        'id_role' : id_role
     }
     return render(request, 'base/dashboard.html', context)
 
@@ -93,7 +98,6 @@ def add_employee(request):
         form = AddEmployeeForm(request.POST)
 
         if form.is_valid():
-
             form.save()
 
             messages.success(request, "Employee added!")
